@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clay & Glaze | Handmade Ceramic Pottery and Home Tableware</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 1. NAVBAR -->
+  <header class="navbar">
+    <a class="logo" href="#home">Clay &amp; Glaze</a>
+    <nav id="menu">
+      <a href="#shop">Shop</a>
+      <a href="#glazes">Glazes</a>
+      <a href="#potters">Potters</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="buttons">
+      <button id="themeBtn" class="pill" onclick="toggleTheme()">Dark</button>
+      <button class="pill" onclick="openPanel('wishPanel')">♡ Wishlist <b id="wishCount">0</b></button>
+      <button class="pill accent" onclick="openPanel('cartPanel')">Cart <b id="cartCount">0</b></button>
+      <button id="menuBtn" class="pill" onclick="toggleMenu()">Menu</button>
+    </div>
+  </header>
+
+  <!-- 2. HERO -->
+  <section id="home" class="hero">
+    <div>
+      <h1>Handmade pottery for everyday tables</h1>
+      <p>Coffee mugs, ramen bowls, dinner sets, vases and plant pots made in small batches by independent studio potters.</p>
+      <a class="btn" href="#shop">Shop now</a>
+    </div>
+    <div class="hero-art">
+      <img class="hero-img" src="images/hero.jpg" alt="Handmade ceramic pottery"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="hero-img empty" style="display:none">🏺</div>
+    </div>
+  </section>
+
+  <!-- 3. SHOP (catalog with categories) -->
+  <section id="shop" class="section">
+    <h2>Tableware collection</h2>
+    <div id="categoryButtons" class="categories"></div>
+    <div class="tools">
+      <input id="search" type="text" placeholder="Search pottery..." oninput="showProducts()">
+      <select id="sort" onchange="showProducts()">
+        <option value="">Sort by</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+        <option value="name">Name A to Z</option>
+      </select>
+    </div>
+    <div class="filters">
+      <select id="firingFilter" onchange="showProducts()">
+        <option value="All">All kiln firings</option>
+        <option>Wood-fired</option><option>Gas</option><option>Raku</option>
+      </select>
+      <select id="specFilter" onchange="showProducts()">
+        <option value="All">All specifications</option>
+        <option>Food Safe Glaze</option><option>Microwave Safe</option><option>Dishwasher Safe</option><option>Oven Safe</option>
+      </select>
+      <select id="glazeFilter" onchange="showProducts()">
+        <option value="All">All glaze finishes</option>
+        <option>Speckled Matte</option><option>Ocean Blue Crystalline</option><option>Raw Terracotta</option>
+      </select>
+      <button class="btn outline" onclick="clearFilters()">Clear filters</button>
+    </div>
+    <p id="count" class="small"></p>
+    <div id="grid" class="grid"></div>
+  </section>
+
+  <!-- 4. GLAZE FINISH SHOWCASE GALLERY -->
+  <section id="glazes" class="section">
+    <h2>Glaze finish showcase</h2>
+    <p class="small">Reactive glazes change as they melt and cool in the kiln, so each piece is a little different.</p>
+    <div id="glazeGrid" class="three"></div>
+  </section>
+
+  <!-- 5. STUDIO POTTER PROFILE CARDS -->
+  <section id="potters" class="section potters-section">
+    <h2>Meet the studio potters</h2>
+    <p class="small">Sample profiles for this project. Each potter fires their work in a different kind of kiln.</p>
+    <div id="potterGrid" class="three"></div>
+  </section>
+
+  <!-- 6. ABOUT -->
+  <section id="about" class="section about">
+    <h2>About our studio</h2>
+    <p>Clay &amp; Glaze is a small online shop for independent studio potters. Every piece is thrown by hand and made in a small batch, so no two pieces are exactly alike and stock is limited.</p>
+  </section>
+
+  <!-- 7. CONTACT FORM -->
+  <section id="contact" class="section">
+    <h2>Contact us</h2>
+    <form id="contactForm" onsubmit="sendContact(event)">
+      <label>Name <input id="ctName" type="text"><span class="error" id="ctNameErr"></span></label>
+      <label>Email <input id="ctEmail" type="text"><span class="error" id="ctEmailErr"></span></label>
+      <label>Phone <input id="ctPhone" type="text"><span class="error" id="ctPhoneErr"></span></label>
+      <label>Message <textarea id="ctMsg" rows="4"></textarea><span class="error" id="ctMsgErr"></span></label>
+      <button class="btn" type="submit">Send message</button>
+    </form>
+  </section>
+
+  <footer>Clay &amp; Glaze | Handmade ceramic pottery | CSE 326 CA1 project</footer>
+
+  <!-- CART PANEL -->
+  <aside id="cartPanel" class="panel">
+    <div class="panel-head"><h2>Your cart</h2><button class="close" onclick="closePanels()">&times;</button></div>
+    <div id="cartItems"></div>
+    <div class="panel-foot">
+      <p>Total: <b id="cartTotal">₹0</b></p>
+      <button class="btn full" onclick="openCheckout()">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- WISHLIST PANEL -->
+  <aside id="wishPanel" class="panel">
+    <div class="panel-head"><h2>Your wishlist</h2><button class="close" onclick="closePanels()">&times;</button></div>
+    <div id="wishItems"></div>
+  </aside>
+  <div id="overlay" class="overlay" onclick="closePanels()"></div>
+
+  <!-- PRODUCT DETAILS POPUP -->
+  <div id="productModal" class="modal">
+    <div class="modal-box">
+      <button class="close" onclick="closeModals()">&times;</button>
+      <div id="mPic" class="pic big"></div>
+      <h3 id="mName"></h3>
+      <p id="mInfo" class="small"></p>
+      <p id="mPotter" class="small"></p>
+      <div id="mBadges"></div>
+      <p id="mDesc"></p>
+      <p class="small"><b>Care:</b> Dishwasher safe on a gentle cycle. Hand wash to keep the glaze shiny.</p>
+      <p id="mPrice" class="price"></p>
+      <button class="btn" onclick="addToCart(openProductId)">Add to cart</button>
+      <button class="btn outline" onclick="toggleWishlist(openProductId)">♡ Wishlist</button>
+    </div>
+  </div>
+
+  <!-- CHECKOUT POPUP (delivery address) -->
+  <div id="checkoutModal" class="modal">
+    <div class="modal-box">
+      <button class="close" onclick="closeModals()">&times;</button>
+      <div id="checkoutForm">
+        <h3>Delivery address</h3>
+        <div id="orderSummary" class="summary"></div>
+        <form onsubmit="placeOrder(event)">
+          <label>Full name <input id="coName" type="text"><span class="error" id="coNameErr"></span></label>
+          <label>Phone <input id="coPhone" type="text"><span class="error" id="coPhoneErr"></span></label>
+          <label>Address <textarea id="coAddress" rows="2"></textarea><span class="error" id="coAddressErr"></span></label>
+          <label>City <input id="coCity" type="text"><span class="error" id="coCityErr"></span></label>
+          <label>State <input id="coState" type="text"><span class="error" id="coStateErr"></span></label>
+          <label>Pincode <input id="coPin" type="text" maxlength="6"><span class="error" id="coPinErr"></span></label>
+          <label>Payment
+            <select id="coPay"><option>Cash on delivery</option><option>UPI on delivery</option></select>
+          </label>
+          <button class="btn full" type="submit">Place order</button>
+        </form>
+      </div>
+      <div id="orderDone" style="display:none">
+        <h3>Thank you for shopping with us!</h3>
+        <p>Your order is placed.</p>
+        <p id="orderMsg"></p>
+        <button class="btn" onclick="closeModals()">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
