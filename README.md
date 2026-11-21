@@ -1,0 +1,2 @@
+Clay-and-Glaze
+A website for independent studio potters to show and sell small-batch handmade ceramic pottery and home tableware. - Purpose: Keep pottery, glaze, kiln and product information in one place so buyers can find handmade tableware faster. - Tools: HTML, CSS, JavaScript, Git/GitHub - Implementation: Responsive pages with a tableware catalog with category filters, potter profiles, specification badges, a glaze gallery, a cart, a wishlist and a checkout form. - Live site: https://gaurinayak11.github.io/clay-and-glaze/
